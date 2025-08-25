@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Register</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(270deg, #1e3c72, #2a5298);
+      background-size: 400% 400%;
+      animation: gradientBG 12s ease infinite;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      color: white;
+    }
+
+    @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .register-box {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+      backdrop-filter: blur(10px);
+      width: 320px;
+      animation: float 3s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+      100% { transform: translateY(0px); }
+    }
+
+    .register-box h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .input-field {
+      width: 100%;
+      margin-bottom: 15px;
+      position: relative;
+    }
+
+    .input-field input {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      outline: none;
+      border-radius: 10px;
+      font-size: 14px;
+      transition: 0.3s;
+    }
+
+    .input-field input:focus {
+      box-shadow: 0 0 10px #00d4ff;
+      transform: scale(1.02);
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      background: #00c6ff;
+      color: white;
+      font-size: 16px;
+      font-weight: bold;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background: #0072ff;
+      transform: scale(1.05);
+    }
+
+    .message {
+      margin-top: 15px;
+      text-align: center;
+      font-size: 14px;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="register-box">
+    <h2>Register</h2>
+    <div class="input-field">
+      <input type="text" id="name" placeholder="Full Name" required>
+    </div>
+    <div class="input-field">
+      <input type="email" id="email" placeholder="Email" required>
+    </div>
+    <div class="input-field">
+      <input type="password" id="password" placeholder="Password" required>
+    </div>
+    <div class="input-field">
+      <input type="tel" id="phone" placeholder="Phone Number" required>
+    </div>
+    <button onclick="register()">Register</button>
+    <div class="message" id="message">Registration Successful 🎉</div>
+  </div>
+
+  <script>
+    function register() {
+      let name = document.getElementById("name").value;
+      let email = document.getElementById("email").value;
+      let password = document.getElementById("password").value;
+      let phone = document.getElementById("phone").value;
+
+      if(name && email && password && phone){
+        let user = {
+          name: name,
+          email: email,
+          password: password,
+          phone: phone
+        };
+
+        localStorage.setItem("user", JSON.stringify(user));
+
+        document.getElementById("message").style.display = "block";
+        document.getElementById("message").style.color = "lightgreen";
+
+        setTimeout(() => {
+          document.getElementById("message").style.display = "none";
+          document.getElementById("name").value = "";
+          document.getElementById("email").value = "";
+          document.getElementById("password").value = "";
+          document.getElementById("phone").value = "";
+        }, 2000);
+      } else {
+        document.getElementById("message").innerText = "Please fill all fields ⚠️";
+        document.getElementById("message").style.display = "block";
+        document.getElementById("message").style.color = "yellow";
+      }
+    }
+  </script>
+</body>
+</html>
