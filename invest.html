@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>My Dashboard</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(270deg, #1e3c72, #2a5298);
+      background-size: 400% 400%;
+      animation: gradientBG 15s ease infinite;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+    }
+
+    @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    header {
+      text-align: center;
+      padding: 20px;
+      font-size: 24px;
+      font-weight: bold;
+      letter-spacing: 2px;
+    }
+
+    .content {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 22px;
+      animation: fadeIn 0.6s ease-in;
+    }
+
+    @keyframes fadeIn {
+      from {opacity: 0; transform: translateY(10px);}
+      to {opacity: 1; transform: translateY(0);}
+    }
+
+    nav {
+      display: flex;
+      justify-content: space-around;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      padding: 10px 0;
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+    }
+
+    nav button {
+      flex: 1;
+      background: none;
+      border: none;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      padding: 10px;
+      transition: 0.3s;
+    }
+
+    nav button:hover {
+      color: #00d4ff;
+      transform: scale(1.1);
+    }
+
+    .active {
+      color: #00ffcc;
+      font-weight: bold;
+    }
+
+    .card {
+      background: rgba(255,255,255,0.15);
+      padding: 25px;
+      border-radius: 15px;
+      text-align: center;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+    }
+
+    input {
+      padding: 10px;
+      border: none;
+      border-radius: 8px;
+      width: 80%;
+      margin: 10px 0;
+    }
+
+    .btn {
+      background: #00c6ff;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      margin-top: 10px;
+      transition: 0.3s;
+    }
+
+    .btn:hover {
+      background: #0072ff;
+      transform: scale(1.05);
+    }
+  </style>
+</head>
+<body>
+  <header>💳 My Dashboard</header>
+
+  <div class="content" id="page-content">
+    <!-- Default page -->
+    <div class="card">
+      <h2>Welcome!</h2>
+      <p>Your Balance:</p>
+      <h1 id="balance">₦10,000</h1>
+    </div>
+  </div>
+
+  <nav>
+    <button onclick="showPage('home')" id="btn-home" class="active">🏠 Home</button>
+    <button onclick="showPage('invest')" id="btn-invest">📈 Invest</button>
+    <button onclick="showPage('deposit')" id="btn-deposit">💰 Deposit</button>
+    <button onclick="showPage('withdraw')" id="btn-withdraw">🏧 Withdraw</button>
+  </nav>
+
+  <script>
+    let balance = 10000;
+
+    function updateBalance() {
+      document.getElementById("balance").innerText = "₦" + balance.toLocaleString();
+    }
+
+    function showPage(page) {
+      document.querySelectorAll("nav button").forEach(btn => btn.classList.remove("active"));
+      document.getElementById("btn-" + page).classList.add("active");
+
+      let content = document.getElementById("page-content");
+
+      if (page === "home") {
+        content.innerHTML = `
+          <div class="card">
+            <h2>Welcome!</h2>
+            <p>Your Balance:</p>
+            <h1 id="balance">₦${balance.toLocaleString()}</h1>
+          </div>
+        `;
+      }
+
+      if (page === "invest") {
+        content.innerHTML = `
+          <div class="card">
+            <h2>Invest</h2>
+            <p>Coming Soon 🚀</p>
+          </div>
+        `;
+      }
+
+      if (page === "deposit") {
+        content.innerHTML = `
+          <div class="card">
+            <h2>Deposit</h2>
+            <input type="number" id="depositAmount" placeholder="Enter amount">
+            <button class="btn" onclick="deposit()">Deposit</button>
+          </div>
+        `;
+      }
+
+      if (page === "withdraw") {
+        content.innerHTML = `
+          <div class="card">
+            <h2>Withdraw</h2>
+            <input type="number" id="withdrawAmount" placeholder="Enter amount">
+            <button class="btn" onclick="withdraw()">Withdraw</button>
+          </div>
+        `;
+      }
+    }
+
+    function deposit() {
+      let amt = parseFloat(document.getElementById("depositAmount").value);
+      if (amt > 0) {
+        balance += amt;
+        alert("Deposit Successful! ✅");
+        showPage('home');
+        updateBalance();
+      } else {
+        alert("Enter a valid amount ⚠️");
+      }
+    }
+
+    function withdraw() {
+      let amt = parseFloat(document.getElementById("withdrawAmount").value);
+      if (amt > 0 && amt <= balance) {
+        balance -= amt;
+        alert("Withdrawal Successful! ✅");
+        showPage('home');
+        updateBalance();
+      } else {
+        alert("Invalid amount ⚠️");
+      }
+    }
+  </script>
+</body>
+</html>
